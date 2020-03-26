@@ -9,6 +9,11 @@ able to extract the contents of `lib/index.tsx`.
 However, when launching from `lib/` as the cwd, the same `require` call causes
 a syntax error when trying to parse `lib/index.tsx`.
 
-The problem is caused by the presence of the `.babelrc` file in the cwd. I'm still
+The problem seems to be caused by the presence of the `.babelrc` file in the cwd. I'm still
 trying to figure out how to mitigate it.
 
+See the `js-only` branch for an experiment in removing Typescript from the mix.
+When Typescript and ts-node are removed, the require *always* fails! This suggests
+that the ts-node loader might be responsible for loading the file in the manner
+required, and that its loader is short-circuted or overridden or not used when
+a .babelrc file is present in the cwd.
