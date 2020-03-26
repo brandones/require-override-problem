@@ -1,15 +1,6 @@
 const path = require("path");
 var Module = require("module");
 
-require("ts-node").register(
-  Object.assign(
-    {
-      ignore: [/\.js/]
-    },
-    require("../tsconfig.json")
-  )
-);
-
 module.exports = async function(opts) {
   let cwd = process.cwd();
   if (!path.isAbsolute(cwd)) {
