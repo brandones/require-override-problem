@@ -17,17 +17,15 @@ module.exports = async function(opts) {
   }
   const entrypoint = path.resolve(cwd, opts.entrypoint);
 
-  // We are going to use the moduleConfigStub to steal the module
-  // schema from the entrypoint file
-  var moduleSchema;
-  // This is the stub. Once it gets the schema, it throws in order to abort
+  // We are going to use the chalkStub to steal the text from the entrypoint file
+  var blueText;
+  // This is the stub. Once it gets the text, it throws in order to abort
   // the entrypoint require, returning control flow to this program
-  const moduleConfigStub = {
-    defineConfigSchema: (moduleName, schema) => {
-      moduleSchema = schema;
-      throw "GOT SCHEMA"
-    },
-    validators: { isString: () => {} }
+  const chalkStub = {
+    blue: (text) => {
+      blueText = text;
+      throw "GOT TEXT"
+    }
   };
 
   // Hack nodejs require
@@ -39,23 +37,23 @@ module.exports = async function(opts) {
       // actually require the entrypoint
       const realModule = originalRequire.apply(this, arguments);
       return realModule;
-    } else if (name.match(/.*@openmrs\/esm-module-config/)) {
+    } else if (name.match(/.*chalk/)) {
       // return our module-config stub
-      return moduleConfigStub;
+      return chalkStub;
     } else {
       // return nothing for everything else
       return {};
     }
   };
-  Module.prototype.__patched = true
 
   try {
     require(entrypoint);
   } catch (e) {
-    if (e === "GOT SCHEMA") {
-      console.log(moduleSchema);
+    if (e === "GOT TEXT") {
+      console.log(blueText);
     } else {
       console.error(e);
+      console.error(e.stack);
       process.exit(1);
     }
   }
