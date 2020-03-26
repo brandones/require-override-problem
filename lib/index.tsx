@@ -1,5 +1,4 @@
 import { blue } from "chalk";
-throw Error("hey");
 
 blue("some very nice blue content");
 
