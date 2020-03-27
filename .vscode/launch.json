@@ -14,7 +14,7 @@
                 "node_modules/typescript/**"
             ],
             "program": "${workspaceFolder}/cli/bin/cli.js",
-            "args": ["-e", "${workspaceFolder}/lib/index.tsx"]
+            "args": ["${workspaceFolder}/lib/index.tsx"]
         },
         {
             "type": "node",
@@ -27,7 +27,7 @@
             ],
             "cwd": "${workspaceFolder}/lib/",
             "program": "${workspaceFolder}/cli/bin/cli.js",
-            "args": ["-e", "${workspaceFolder}/lib/index.tsx"]
+            "args": ["${workspaceFolder}/lib/index.tsx"]
         }
     ]
 }
