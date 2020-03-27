@@ -17,3 +17,11 @@ When Typescript and ts-node are removed, the require *always* fails! This sugges
 that the ts-node loader might be responsible for loading the file in the manner
 required, and that its loader is short-circuted or overridden or not used when
 a .babelrc file is present in the cwd.
+
+## Solution
+
+The solution is to add
+```
+  dir: __dirname
+```
+to the tsconfig passed to `require("ts-node").register`.
